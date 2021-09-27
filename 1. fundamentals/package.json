@@ -1,0 +1,22 @@
+{
+  "name": "1.1_reverse-stdin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "1-reverse-stdin": "nodemon 1-reverse-stdin/index.js",
+    "2-csv-convert": "node 2-csv-convert/index.js",
+    "2-csv-convert-default": "nodemon 2-csv-convert/index.js -- -i 2-csv-convert/data/test-data.csv -o 2-csv-convert/data/results.txt"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^8.2.0",
+    "csvtojson": "^2.0.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1"
+  }
+}
