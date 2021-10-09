@@ -7,6 +7,7 @@
     "1-reverse-stdin": "nodemon 1-reverse-stdin/index.js",
     "2-csv-convert": "node 2-csv-convert/index.js",
     "2-csv-convert-default": "nodemon 2-csv-convert/index.js -- -i 2-csv-convert/data/test-data.csv -o 2-csv-convert/data/results.txt",
+    "2-csv-convert-default-mem": "nodemon 2-csv-convert-mem/index.js -- -i 2-csv-convert-mem/data/test-data.csv -o 2-csv-convert-mem/data/results.txt",
     "3-reverse-stdin-build": "babel 3-babel-es6/reverse-stdin --out-dir 3-babel-es6/reverse-stdin-dist",
     "3-reverse-stdin-serve": "nodemon --exec babel-node -- 3-babel-es6/reverse-stdin",
     "3-csv-convert-build": "babel 3-babel-es6/csv-convert --out-dir 3-babel-es6/csv-convert-dist",
