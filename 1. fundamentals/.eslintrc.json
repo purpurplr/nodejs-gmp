@@ -1,0 +1,23 @@
+{
+  "extends": ["airbnb-typescript"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    "import/prefer-default-export": "off",
+    "no-confusing-arrow": "off",
+    "import/extensions": 2,
+    "default-case": "off",
+    "arrow-body-style": "off",
+    "no-return-assign": "off",
+    "implicit-arrow-linebreak": "off",
+    "@typescript-eslint/lines-between-class-members": "off"
+  }
+}
