@@ -97,7 +97,8 @@
         "class-methods-use-this": "off",
         "no-console": "off",
         "lines-between-class-members": "off",
-        "arrow-body-style": "off"
+        "arrow-body-style": "off",
+        "prefer-destructuring": "off"
       }
     }
   ]

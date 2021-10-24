@@ -1,14 +1,5 @@
 import { v4 as uuid } from 'uuid';
-
-export interface User {
-  id: string;
-  login: string;
-  password: string;
-  age: number;
-  isDeleted: boolean;
-}
-
-export type UserDraft = Omit<User, 'id' | 'isDeleted'>;
+import { User, UserDraft } from './user.schemas';
 
 // just a mock for now
 class UsersModel {
@@ -21,7 +12,7 @@ class UsersModel {
         id: uuid(),
         age: i,
         isDeleted: false,
-        password: String(i),
+        password: `abcdefg${String(i)}`,
         login: String(i),
       });
     }
