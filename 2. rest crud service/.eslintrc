@@ -64,16 +64,6 @@
         "@typescript-eslint/dot-notation": "error",
         "no-dupe-class-members": "off",
         "@typescript-eslint/no-dupe-class-members": "error",
-        "no-magic-numbers": "off",
-        "@typescript-eslint/no-magic-numbers": [
-          "error",
-          {
-            "ignoreEnums": true,
-            "ignoreNumericLiteralTypes": true,
-            "ignoreReadonlyClassProperties": true,
-            "ignore": [0, 1, 2]
-          }
-        ],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
         "no-redeclare": "off",
@@ -90,14 +80,19 @@
         "@typescript-eslint/no-use-before-define": "error",
         "no-useless-constructor": "off",
         "@typescript-eslint/no-useless-constructor": "error",
+        "no-empty-function": ["error", {
+          "allow": ["constructors"]
+        }],
         "@typescript-eslint/no-base-to-string": "warn",
         "@typescript-eslint/unified-signatures": "warn",
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-duplicate-imports": "off",
+        "@typescript-eslint/no-magic-numbers": "off",
         "class-methods-use-this": "off",
         "no-console": "off",
         "lines-between-class-members": "off",
         "arrow-body-style": "off",
+        "no-magic-numbers": "off",
         "prefer-destructuring": "off"
       }
     }
