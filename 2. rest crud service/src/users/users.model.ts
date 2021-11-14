@@ -1,17 +1,15 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { orm } from '../orm';
+import { UserDraftDTO, UserDTO } from './user.interfaces';
 
-export interface UserAttributes {
-  id: string;
-  login: string;
-  password: string;
-  age: number;
-  deletedAt: Date;
+class User extends Model<UserDTO, UserDraftDTO> implements UserDTO {
+  public id: string;
+  public login: string;
+  public password: string;
+  public age: number;
+  public deletedAt: Date;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'deletedAt'> {}
-
-class User extends Model<UserAttributes, UserCreationAttributes> {}
 User.init(
   {
     id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true, allowNull: false, unique: true },
