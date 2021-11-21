@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { UsersController } from './users.controller';
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { User } from './users.model';
 
-const userService = new UserService(User);
+const userService = new UsersService(User);
 const usersController = new UsersController(userService);
 
 const usersRouter = Router();

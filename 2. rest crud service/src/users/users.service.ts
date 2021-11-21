@@ -1,9 +1,9 @@
 import { Op } from 'sequelize';
 import { User } from './users.model';
 import { CrudService } from '../interfaces/crud-service';
-import { UserDraftDTO } from './user.interfaces';
+import { UserDraftDTO } from './users.interfaces';
 
-export class UserService implements CrudService<User, UserDraftDTO> {
+export class UsersService implements CrudService<User, UserDraftDTO> {
   constructor(private UserModel: typeof User) {}
 
   public getAll(loginSubstring?: string, limit?: number): Promise<User[]> {

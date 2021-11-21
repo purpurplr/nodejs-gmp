@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { suggestedUsersSchema, userDraftSchema } from './user.schemas';
+import { suggestedUsersSchema, userDraftSchema } from './users.schemas';
 import { recordIdSchema } from '../shared/shared.schemas';
 import { validator } from '../validator';
 import { CrudService } from '../interfaces/crud-service';
-import { UserDraftDTO, UserDTO } from './user.interfaces';
+import { UserDraftDTO, UserDTO } from './users.interfaces';
 
 export class UsersController {
   public getUsers = [
@@ -12,7 +12,6 @@ export class UsersController {
     async (req: Request<{}, {}, {}, { limit?: number; login?: string }>, res: Response<UserDTO[]>): Promise<void> => {
       const { limit, login } = req.query;
       const result: UserDTO[] = await this.userService.getAll(login, limit);
-      console.log(result);
       res.json(result);
     },
   ];

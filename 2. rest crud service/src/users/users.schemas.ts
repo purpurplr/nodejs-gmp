@@ -1,7 +1,8 @@
 import Joi from 'joi';
 import { passwordRegEx } from '../shared/regex';
+import { UserDraftDTO } from './users.interfaces';
 
-export const userDraftSchema = Joi.object({
+export const userDraftSchema = Joi.object<UserDraftDTO>({
   login: Joi.string().min(4).max(20),
   password: Joi.string().regex(passwordRegEx).max(50),
   age: Joi.number().min(4).max(130),

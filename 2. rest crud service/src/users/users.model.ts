@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { orm } from '../orm';
-import { UserDraftDTO, UserDTO } from './user.interfaces';
+import { UserDraftDTO, UserDTO } from './users.interfaces';
 
 class User extends Model<UserDTO, UserDraftDTO> implements UserDTO {
   public id: string;
