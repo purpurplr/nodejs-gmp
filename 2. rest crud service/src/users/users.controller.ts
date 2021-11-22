@@ -1,26 +1,27 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { usersModel } from './users.model';
-import { suggestedUsersSchema, User, UserDraft, userDraftSchema } from './user.schemas';
+import { User, UserCreationAttributes } from './users.model';
+import { suggestedUsersSchema, userDraftSchema } from './user.schemas';
 import { recordIdSchema } from '../shared/shared.schemas';
 import { validator } from '../validator';
+import { UserService } from './user.service';
+
+const userService = new UserService(User);
 
 export const usersController = {
   getUsers: [
     validator.query(suggestedUsersSchema),
-    (req: Request<{}, {}, {}, { limit?: number; login?: string }>, res: Response<User[]>): void => {
-      const limit = req.query.limit;
-      const loginSubstring = req.query.login;
-      const lookingForSuggested: boolean = !!(limit ?? loginSubstring);
-      const result: User[] = lookingForSuggested ? usersModel.getSuggested(limit, loginSubstring) : usersModel.getAll();
+    async (req: Request<{}, {}, {}, { limit?: number; login?: string }>, res: Response<User[]>): Promise<void> => {
+      const { limit, login } = req.query;
+      const result: User[] = await userService.getAll(login, limit);
       res.json(result);
     },
   ],
 
   getUserById: [
     validator.params(recordIdSchema),
-    (req: Request<{ id: string }>, res: Response<User | undefined>): void => {
-      const user: User | undefined = usersModel.getById(req.params.id);
+    async (req: Request<{ id: string }>, res: Response<User | undefined>): Promise<void> => {
+      const user: User | null = await User.findByPk(req.params.id);
       if (user) {
         res.json(user);
       } else {
@@ -31,8 +32,8 @@ export const usersController = {
 
   createUser: [
     validator.body(userDraftSchema.options({ presence: 'required' })),
-    (req: Request<{}, User, UserDraft>, res: Response<User>): void => {
-      const user: User = usersModel.create(req.body);
+    async (req: Request<{}, User, UserCreationAttributes>, res: Response<User>): Promise<void> => {
+      const user: User = await User.create(req.body);
       res.json(user);
     },
   ],
@@ -40,11 +41,15 @@ export const usersController = {
   patchUser: [
     validator.params(recordIdSchema),
     validator.body(userDraftSchema),
-    (req: Request<{ id: string }, null, Partial<UserDraft>>, res: Response<User | undefined>): void => {
+    async (
+      req: Request<{ id: string }, User, Partial<UserCreationAttributes>>,
+      res: Response<User | undefined>,
+    ): Promise<void> => {
       const { id } = req.params;
-      const hasUser: boolean = !!usersModel.getById(id);
-      if (hasUser) {
-        const updatedUser = usersModel.edit(id, req.body);
+      const user = await User.findByPk(id);
+      if (user) {
+        user.set({ ...req.body });
+        const updatedUser: User = await user.save();
         res.json(updatedUser);
       } else {
         res.status(StatusCodes.NOT_FOUND).end();
@@ -54,11 +59,11 @@ export const usersController = {
 
   softDelete: [
     validator.params(recordIdSchema),
-    (req: Request<{ id: string }>, res: Response): void => {
+    async (req: Request<{ id: string }>, res: Response): Promise<void> => {
       const { id } = req.params;
-      const hasUser: boolean = !!usersModel.getById(id);
-      if (hasUser) {
-        usersModel.softDelete(id);
+      const user: User | null = await User.findByPk(id);
+      if (user) {
+        await user.destroy();
         res.status(StatusCodes.OK).end();
       } else {
         res.status(StatusCodes.NOT_FOUND).end();

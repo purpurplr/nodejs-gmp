@@ -1,61 +1,33 @@
-import { v4 as uuid } from 'uuid';
-import { User, UserDraft } from './user.schemas';
+import { DataTypes, Model, Optional } from 'sequelize';
+import { orm } from '../orm';
 
-// just a mock for now
-class UsersModel {
-  private userList: User[] = [];
-
-  constructor() {
-    const MOCK_SIZE = 40;
-    for (let i = 0; i < MOCK_SIZE; i += 1) {
-      this.userList.push({
-        id: uuid(),
-        age: i,
-        isDeleted: false,
-        password: `abcdefg${String(i)}`,
-        login: String(i),
-      });
-    }
-  }
-
-  public getAll(): User[] {
-    return this.userList;
-  }
-
-  public getSuggested(limit?: number, loginSubstring?: string): User[] {
-    let result = this.userList.sort((prev: User, curr: User) => prev.login.localeCompare(curr.login));
-    if (loginSubstring) {
-      result = result.filter(({ login }) => {
-        return login.toLowerCase().includes(loginSubstring.toLowerCase());
-      });
-    }
-    if (limit) {
-      result = result.slice(0, limit);
-    }
-    return result;
-  }
-
-  public getById(id: string): User | undefined {
-    return this.userList.find((user) => user.id === id);
-  }
-
-  public create(userDraft: UserDraft): User {
-    const newUser: User = { ...userDraft, id: uuid(), isDeleted: false };
-    this.userList = [...this.userList, newUser];
-    return newUser;
-  }
-
-  public edit(updateId: string, updates: Partial<UserDraft>): User {
-    const user = this.userList.find(({ id }) => id === updateId) as User;
-    Object.assign(user, updates);
-    return user;
-  }
-
-  public softDelete(deleteId: string): User {
-    const user = this.userList.find(({ id }) => id === deleteId) as User;
-    user.isDeleted = true;
-    return user;
-  }
+export interface UserAttributes {
+  id: string;
+  login: string;
+  password: string;
+  age: number;
+  deletedAt: Date;
 }
 
-export const usersModel = new UsersModel();
+export interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'deletedAt'> {}
+
+class User extends Model<UserAttributes, UserCreationAttributes> {}
+User.init(
+  {
+    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true, allowNull: false, unique: true },
+    login: { type: DataTypes.STRING(20), allowNull: false, unique: true },
+    password: { type: DataTypes.STRING(50), allowNull: false },
+    age: { type: DataTypes.SMALLINT, allowNull: false },
+    deletedAt: { type: DataTypes.DATE },
+  },
+  {
+    sequelize: orm.sequelize,
+    modelName: 'User',
+    timestamps: true,
+    createdAt: false,
+    updatedAt: false,
+    paranoid: true,
+  },
+);
+
+export { User };
