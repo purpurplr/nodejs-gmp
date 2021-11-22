@@ -1,10 +1,7 @@
 import { Client, QueryArrayResult } from 'pg';
-import * as fs from 'fs';
 import * as path from 'path';
+import * as fs from 'fs';
 import { databaseConfig } from '../config/database.config';
-
-console.log(1);
-console.log(__dirname);
 
 const client = new Client({
   user: databaseConfig.username,
@@ -16,11 +13,17 @@ const client = new Client({
 
 client.connect();
 
-const queryPath = path.resolve(__dirname, 'init-users.sql');
-const query = fs.readFileSync(queryPath, { encoding: 'utf-8' });
+const QUERY_PATH_LIST = ['init-users.sql', 'init-roles.sql', 'init-user-roles.sql'].map((queryPath: string) =>
+  path.resolve(__dirname, 'queries', queryPath),
+);
 
-client.query(query, (err: Error | undefined, res: QueryArrayResult | undefined) => {
-  if (err) console.log('Error', err);
-  if (res) console.log('Results', res);
+const joinedQuery = QUERY_PATH_LIST.reduce((acc: string, queryPath: string) => {
+  const query: string = fs.readFileSync(queryPath, { encoding: 'utf-8' });
+  return acc + query;
+}, '');
+
+client.query(joinedQuery, (error: Error | undefined, result: QueryArrayResult) => {
+  if (error) console.error('Error', error);
+  console.log('Result', result);
   client.end();
 });

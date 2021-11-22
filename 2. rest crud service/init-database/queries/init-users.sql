@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS public."Users"
 (
-    id uuid NOT NULL,
+    id uuid PRIMARY KEY NOT NULL,
     login character varying(20) COLLATE pg_catalog."default" NOT NULL,
     password character varying(50) COLLATE pg_catalog."default" NOT NULL,
     age smallint NOT NULL,
