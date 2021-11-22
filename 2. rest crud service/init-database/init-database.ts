@@ -17,7 +17,7 @@ const QUERY_PATH_LIST = ['init-users.sql', 'init-roles.sql', 'init-user-roles.sq
   path.resolve(__dirname, 'queries', queryPath),
 );
 
-const joinedQuery = QUERY_PATH_LIST.reduce((acc, queryPath) => {
+const joinedQuery = QUERY_PATH_LIST.reduce((acc: string, queryPath: string) => {
   const query: string = fs.readFileSync(queryPath, { encoding: 'utf-8' });
   return acc + query;
 }, '');

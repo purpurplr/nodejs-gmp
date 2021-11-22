@@ -4,7 +4,8 @@ import { recordIdSchema } from '../shared/shared.schemas';
 import { validator } from '../validator';
 import { CrudService } from '../interfaces/crud-service';
 import { RoleDraftDTO, RoleDTO } from './roles.interfaces';
-import { roleDraftSchema } from './roles.schemas';
+import { assigningUserIdsSchema, roleDraftSchema } from './roles.schemas';
+import { M2NService } from '../interfaces/m2n-service';
 
 export class RolesController {
   public getUsers = [
@@ -63,5 +64,16 @@ export class RolesController {
     },
   ];
 
-  constructor(private rolesService: CrudService<RoleDTO, RoleDraftDTO>) {}
+  public assignRoleToUsers = [
+    validator.params(recordIdSchema),
+    validator.body(assigningUserIdsSchema),
+    async (req: Request<{ id: string }, void, { userIds: string[] }>, res: Response): Promise<void> => {
+      const { id: roleId } = req.params;
+      const { userIds } = req.body;
+      await this.rolesService.assignRoleToUsers(roleId, userIds);
+      res.status(StatusCodes.OK).end();
+    },
+  ];
+
+  constructor(private rolesService: CrudService<RoleDTO, RoleDraftDTO> & M2NService) {}
 }
