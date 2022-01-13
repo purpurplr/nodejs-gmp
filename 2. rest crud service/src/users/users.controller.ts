@@ -1,13 +1,16 @@
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { suggestedUsersSchema, userDraftSchema } from './users.schemas';
 import { recordIdSchema } from '../shared/shared.schemas';
 import { validator } from '../validator';
 import { CrudService } from '../interfaces/crud-service';
 import { UserDraftDTO, UserDTO } from './users.interfaces';
+import { AppendMiddlewareWith } from '../decorators/decorate-methods-with.decorator';
+import { errorLoggerFactory } from '../decorators/error-logger-factory';
 
 export class UsersController {
-  public getUsers = [
+  @AppendMiddlewareWith([errorLoggerFactory])
+  public getUsers: RequestHandler[] = [
     validator.query(suggestedUsersSchema),
     async (req: Request<{}, {}, {}, { limit?: number; login?: string }>, res: Response<UserDTO[]>): Promise<void> => {
       const { limit, login } = req.query;
@@ -16,6 +19,7 @@ export class UsersController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public getUserById = [
     validator.params(recordIdSchema),
     async (req: Request<{ id: string }>, res: Response<UserDTO | undefined>): Promise<void> => {
@@ -28,6 +32,7 @@ export class UsersController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public createUser = [
     validator.body(userDraftSchema.options({ presence: 'required' })),
     async (req: Request<{}, UserDTO, UserDraftDTO>, res: Response<UserDTO>): Promise<void> => {
@@ -36,6 +41,7 @@ export class UsersController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public patchUser = [
     validator.params(recordIdSchema),
     validator.body(userDraftSchema),
@@ -52,6 +58,7 @@ export class UsersController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public softDelete = [
     validator.params(recordIdSchema),
     async (req: Request<{ id: string }>, res: Response): Promise<void> => {
