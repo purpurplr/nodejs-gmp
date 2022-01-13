@@ -3,7 +3,10 @@ import { RoleDraftDTO, RoleDTO } from './roles.interfaces';
 import { Role } from './roles.model';
 import { UserRole } from '../user-role/user-role.model';
 import { M2NService } from '../interfaces/m2n-service';
+import { LogCalls } from '../decorators/call-logger.decorator';
+import { DecorateMethodsWith } from '../decorators/decorate-methods-with.decorator';
 
+@DecorateMethodsWith([LogCalls])
 export class RolesService implements CrudService<RoleDTO, RoleDraftDTO>, M2NService {
   constructor(private RolesModel: typeof Role, private UserRolesModel: typeof UserRole) {}
 

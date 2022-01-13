@@ -6,8 +6,11 @@ import { CrudService } from '../interfaces/crud-service';
 import { RoleDraftDTO, RoleDTO } from './roles.interfaces';
 import { assigningUserIdsSchema, roleDraftSchema } from './roles.schemas';
 import { M2NService } from '../interfaces/m2n-service';
+import { AppendMiddlewareWith } from '../decorators/decorate-methods-with.decorator';
+import { errorLoggerFactory } from '../decorators/error-logger-factory';
 
 export class RolesController {
+  @AppendMiddlewareWith([errorLoggerFactory])
   public getUsers = [
     async (req: Request, res: Response<RoleDTO[]>): Promise<void> => {
       const result: RoleDTO[] = await this.rolesService.getAll();
@@ -15,6 +18,7 @@ export class RolesController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public getUserById = [
     validator.params(recordIdSchema),
     async (req: Request<{ id: string }>, res: Response<RoleDTO | undefined>): Promise<void> => {
@@ -27,6 +31,7 @@ export class RolesController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public createUser = [
     validator.body(roleDraftSchema.options({ presence: 'required' })),
     async (req: Request<{}, RoleDTO, RoleDraftDTO>, res: Response<RoleDTO>): Promise<void> => {
@@ -35,6 +40,7 @@ export class RolesController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public patchUser = [
     validator.params(recordIdSchema),
     validator.body(roleDraftSchema),
@@ -51,6 +57,7 @@ export class RolesController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public hardDelete = [
     validator.params(recordIdSchema),
     async (req: Request<{ id: string }>, res: Response): Promise<void> => {
@@ -64,6 +71,7 @@ export class RolesController {
     },
   ];
 
+  @AppendMiddlewareWith([errorLoggerFactory])
   public assignRoleToUsers = [
     validator.params(recordIdSchema),
     validator.body(assigningUserIdsSchema),
