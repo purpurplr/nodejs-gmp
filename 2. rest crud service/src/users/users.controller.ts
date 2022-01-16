@@ -5,8 +5,8 @@ import { recordIdSchema } from '../shared/shared.schemas';
 import { validator } from '../validator';
 import { CrudService } from '../interfaces/crud-service';
 import { UserDraftDTO, UserDTO } from './users.interfaces';
-import { AppendMiddlewareWith } from '../decorators/decorate-methods-with.decorator';
 import { errorLoggerFactory } from '../decorators/error-logger-factory';
+import { AppendMiddlewareWith } from '../decorators/append-middleware-with.decorator';
 
 export class UsersController {
   @AppendMiddlewareWith([errorLoggerFactory])
