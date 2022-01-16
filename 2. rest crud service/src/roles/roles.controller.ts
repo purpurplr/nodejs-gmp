@@ -6,8 +6,8 @@ import { CrudService } from '../interfaces/crud-service';
 import { RoleDraftDTO, RoleDTO } from './roles.interfaces';
 import { assigningUserIdsSchema, roleDraftSchema } from './roles.schemas';
 import { M2NService } from '../interfaces/m2n-service';
-import { AppendMiddlewareWith } from '../decorators/decorate-methods-with.decorator';
 import { errorLoggerFactory } from '../decorators/error-logger-factory';
+import { AppendMiddlewareWith } from '../decorators/append-middleware-with.decorator';
 
 export class RolesController {
   @AppendMiddlewareWith([errorLoggerFactory])

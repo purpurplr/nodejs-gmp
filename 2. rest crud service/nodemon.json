@@ -6,5 +6,8 @@
   "ignore": [
     "src/public"
   ],
-  "exec": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src"
+  "exec": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src",
+  "env": {
+    "JWT_SECRET": "muni-kupi-meow"
+  }
 }
