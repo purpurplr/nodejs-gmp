@@ -1,10 +1,11 @@
-import { Options } from 'sequelize';
+import 'dotenv/config';
+import { Dialect, Options } from 'sequelize';
 
 export const databaseConfig: Options = {
-  dialect: 'postgres',
-  database: 'postgres',
-  username: 'postgres',
-  password: 'password',
-  host: 'localhost',
-  port: 5432,
+  database: process.env.DB,
+  dialect: process.env.DB_DIALECT as Dialect,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
 };

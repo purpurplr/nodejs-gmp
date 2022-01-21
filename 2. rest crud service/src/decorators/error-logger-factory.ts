@@ -5,7 +5,7 @@ export function errorLoggerFactory<T>(parentConstructor: Type<T>, propertyKey: s
   return (error: Error | undefined, req: Request, res: Response, next: NextFunction) => {
     if (error) {
       console.error(
-        `Error in class ${parentConstructor.constructor.name}! Method: ${propertyKey}; Arguments.; Error: ${
+        `Error in class ${parentConstructor.constructor.name}! Method: ${String(propertyKey)}; Arguments.; Error: ${
           error.message
         }, ${JSON.stringify(error)}`,
       );
