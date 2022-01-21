@@ -11,7 +11,7 @@ import { AppendMiddlewareWith } from '../decorators/append-middleware-with.decor
 
 export class RolesController {
   @AppendMiddlewareWith([errorLoggerFactory])
-  public getUsers = [
+  public getRoles = [
     async (req: Request, res: Response<RoleDTO[]>): Promise<void> => {
       const result: RoleDTO[] = await this.rolesService.getAll();
       res.json(result);
@@ -19,7 +19,7 @@ export class RolesController {
   ];
 
   @AppendMiddlewareWith([errorLoggerFactory])
-  public getUserById = [
+  public getRoleById = [
     validator.params(recordIdSchema),
     async (req: Request<{ id: string }>, res: Response<RoleDTO | undefined>): Promise<void> => {
       const user: RoleDTO | null = await this.rolesService.findByPk(req.params.id);
@@ -32,7 +32,7 @@ export class RolesController {
   ];
 
   @AppendMiddlewareWith([errorLoggerFactory])
-  public createUser = [
+  public createRole = [
     validator.body(roleDraftSchema.options({ presence: 'required' })),
     async (req: Request<{}, RoleDTO, RoleDraftDTO>, res: Response<RoleDTO>): Promise<void> => {
       const user: RoleDTO = await this.rolesService.create(req.body);
@@ -41,7 +41,7 @@ export class RolesController {
   ];
 
   @AppendMiddlewareWith([errorLoggerFactory])
-  public patchUser = [
+  public patchRole = [
     validator.params(recordIdSchema),
     validator.body(roleDraftSchema),
     async (
