@@ -2,7 +2,8 @@
   "root": true,
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
   "ignorePatterns": ["*.html"],
   "overrides": [
@@ -14,7 +15,7 @@
         "project": "./tsconfig.json",
         "createDefaultProgram": true
       },
-      "plugins": ["import", "@typescript-eslint"],
+      "plugins": ["import", "@typescript-eslint", "jest"],
       "settings": {
         "import/resolver": {
           "typescript": {
@@ -24,6 +25,7 @@
       },
       "rules": {
         "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "@typescript-eslint/array-type": "error",
         "@typescript-eslint/consistent-indexed-object-style": ["error", "record"],
         "@typescript-eslint/class-literal-property-style": ["error", "fields"],
@@ -95,6 +97,13 @@
         "no-magic-numbers": "off",
         "prefer-destructuring": "off"
       }
+    },
+    {
+      "files": ["*.test.ts"],
+      "rules": {
+        "import/first": "off"
+      }
     }
   ]
 }
+

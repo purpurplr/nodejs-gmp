@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from 'express';
+import { ErrorRequestHandler, Request, RequestHandler, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { suggestedUsersSchema, userDraftSchema } from './users.schemas';
 import { recordIdSchema } from '../shared/shared.schemas';
@@ -10,7 +10,7 @@ import { AppendMiddlewareWith } from '../decorators/append-middleware-with.decor
 
 export class UsersController {
   @AppendMiddlewareWith([errorLoggerFactory])
-  public getUsers: RequestHandler[] = [
+  public getUsers: (RequestHandler | ErrorRequestHandler)[] = [
     validator.query(suggestedUsersSchema),
     async (req: Request<{}, {}, {}, { limit?: number; login?: string }>, res: Response<UserDTO[]>): Promise<void> => {
       const { limit, login } = req.query;

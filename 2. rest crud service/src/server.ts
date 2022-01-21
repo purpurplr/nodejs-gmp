@@ -7,7 +7,7 @@ import baseRouter from './base-router';
 import { requestLoggerMiddleware } from './utils/request-logger.middleware';
 import { defaultErrorHandler } from './utils/default-error-handler';
 import authRouter from './auth/auth.router';
-import { corsConfig } from './configs/cors.config';
+import { corsConfig } from '../config/cors.config';
 
 const app = express();
 

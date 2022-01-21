@@ -5,7 +5,7 @@ export interface UserDTO {
   login: string;
   password: string;
   age: number;
-  deletedAt: Date;
+  deletedAt?: Date;
 }
 
 export type UserDraftDTO = Optional<UserDTO, 'id' | 'deletedAt'>;

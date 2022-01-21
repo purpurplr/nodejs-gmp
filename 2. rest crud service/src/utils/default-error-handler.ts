@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import winston from 'winston';
 
 const logger = winston.createLogger({
@@ -7,7 +7,7 @@ const logger = winston.createLogger({
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function defaultErrorHandler(err: any, req: Request, res: Response): void {
+export function defaultErrorHandler(err: any, req: Request, res: Response, next: NextFunction): void {
   if (err.message) logger.error(err.message, [req]);
 
   if (err.statusCode) res.statusCode = err.statusCode;
